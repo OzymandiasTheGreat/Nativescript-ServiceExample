@@ -7,6 +7,8 @@ logic, and to set up your page’s data binding.
 import { EventData } from "tns-core-modules/data/observable";
 import { Page } from "tns-core-modules/ui/page";
 import { HelloWorldModel } from "./main-view-model";
+import * as app from "tns-core-modules/application";
+import { CONTINUOUS_SERVICE_CLASSNAME } from "./service/continuous-service.android";
 
 // Event handler for Page "navigatingTo" event attached in main-page.xml
 export function navigatingTo(args: EventData) {
@@ -28,4 +30,9 @@ export function navigatingTo(args: EventData) {
     https://docs.nativescript.org/core-concepts/data-binding.
     */
     page.bindingContext = new HelloWorldModel();
+
+    const context = app.android.context;
+    const intent = new android.content.Intent();
+    intent.setClassName(context, CONTINUOUS_SERVICE_CLASSNAME);
+    context.startService(intent);
 }
