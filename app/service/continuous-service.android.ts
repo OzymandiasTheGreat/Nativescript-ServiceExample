@@ -1,5 +1,8 @@
 import { RESTART_RECEIVER_CLASSNAME } from "./restart-receiver.android";
 import * as app from "tns-core-modules/application";
+import { Font } from "tns-core-modules/ui/styling/font";
+import { Color } from "tns-core-modules/color";
+import { getImage } from "nativescript-vector-icons";
 declare const com: any;
 
 
@@ -24,12 +27,21 @@ class Continuous_Service extends android.app.Service {
             }, 1000)
         }
 
+        const image = getImage(
+            Font.default.withFontFamily("meteocons").withFontSize(24),
+            "N",
+            new Color(0xff000000),
+        );
+        const bitmap = android.graphics.BitmapFactory.decodeFile(image);
+        const icon = android.graphics.drawable.Icon.createWithBitmap(bitmap);
+
         const appIntent: android.content.Intent = new android.content.Intent(app.android.context, com.tns.NativeScriptActivity.class);
         const pendingIntent: android.app.PendingIntent = android.app.PendingIntent.getActivity(app.android.context, 0, appIntent, 0);
         const builder: android.app.Notification.Builder = new android.app.Notification.Builder(app.android.context);
         builder
             .setContentText("Custom notification, F'Yeah!")
-            .setSmallIcon(android.R.drawable.btn_star_big_on)
+            // .setSmallIcon(android.R.drawable.btn_star_big_on)
+            .setSmallIcon(icon)
             .setContentIntent(pendingIntent);
         // Need to check api level, NotificationChannel is required but only available on Oreo and above
         if (android.os.Build.VERSION.SDK_INT >= 26) {
