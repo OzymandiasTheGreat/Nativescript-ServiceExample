@@ -14,6 +14,7 @@
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 	<uses-permission android:name="android.permission.INTERNET"/>
 	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
 	<application
 		android:name="com.tns.NativeScriptApplication"
@@ -42,5 +43,14 @@
 			android:enabled="true"
 			android:exported="true"
 			android:label="ContinuousServiceRestarter" />
+		<receiver
+			android:name="tk.ozymandias.ServiceExample.Autostart_Receiver"
+			android:enabled="true"
+			android:exported="true"
+			android:label="ContinuousServiceAutostarter" >
+			<intent-filter>
+					<action android:name="android.intent.action.BOOT_COMPLETED" />
+			</intent-filter>
+		</receiver>
 	</application>
 </manifest>
